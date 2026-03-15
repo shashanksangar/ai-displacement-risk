@@ -2,21 +2,47 @@
 
 A searchable web interface for exploring AI exposure ratings across 342 U.S. occupations with a personal displacement risk calculator, based on [karpathy/jobs](https://github.com/karpathy/jobs).
 
+## 🌟 What's New (v2.0)
+
+✨ **Semantic Search** - Search through job descriptions, not just titles
+🎯 **6 AI Skill Categories** - Granular assessment (RAG, ML, DL, Prompting, Data Analysis, Platforms)
+📊 **Skills Breakdown** - See how each skill reduces your risk
+🔄 **Synergy Bonuses** - Multiple skills compound for greater protection
+💡 **Smarter Recommendations** - Personalized learning paths based on your gaps
+
+👉 **[Try the Live Demo](https://shashanksangar.github.io/ai-displacement-risk/)** (if GitHub Pages is enabled)
+
 ## 🎯 Features
 
-### Core Features
-- 🔍 **Search by Profession** - Type any job title or category to filter results instantly
-- 📊 **AI Exposure Ratings** - See how susceptible each occupation is to AI/automation (0-10 scale)
-- 💡 **Detailed Rationale** - Understand why each job received its exposure rating
-- 🎨 **Beautiful UI** - Color-coded cards with intuitive, responsive design
-- 📈 **342 Occupations** - Complete U.S. Bureau of Labor Statistics dataset
+### 🔍 Enhanced Semantic Search (NEW!)
+- **Deep Keyword Search** - Searches through job titles, categories, AND full descriptions
+- **Relevance Sorting** - Results ranked by relevance to your search
+- **Keyword Highlighting** - Matching terms highlighted in yellow
+- **Context Discovery** - Find jobs by concepts like "automation", "digital", "physical presence"
+- **342 Occupations** - Complete U.S. Bureau of Labor Statistics dataset
 
-### 🆕 Personal Displacement Risk Calculator
-- **Interactive Risk Assessment** - Calculate your personal displacement risk based on your profession
-- **AI Skills Impact** - See how learning AI/ML skills affects your job security
-- **Smart Recommendations** - Get personalized advice on upskilling strategies
-- **Before/After Comparison** - Visual comparison of risk with and without AI skills
-- **Risk Reduction Metrics** - See exactly how much AI skills can reduce your displacement risk
+### 📊 Granular AI Skills Assessment (NEW!)
+Instead of a simple yes/no, assess **6 specific AI skill categories**:
+
+1. **RAG & Automation** (25% impact) - AI agents, workflow automation
+2. **Machine Learning** (22% impact) - ML algorithms, model training
+3. **Deep Learning** (18% impact) - Neural networks, PyTorch, TensorFlow
+4. **Prompt Engineering** (15% impact) - Effective AI prompting
+5. **AI-Powered Data Analysis** (12% impact) - Analytics with AI
+6. **AI Platforms** (8% impact) - ChatGPT, Claude, Midjourney, etc.
+
+**Advanced Features:**
+- **Job-Specific Weighting** - Each skill's impact varies by profession
+- **Synergy Bonuses** - Multiple skills compound (e.g., 3 skills = 11% bonus)
+- **Skills Breakdown** - See how each skill reduces your risk
+- **Personalized Learning Path** - Recommendations on which skills to prioritize
+
+### 💡 Core Features
+- 📊 **AI Exposure Ratings** - See how susceptible each occupation is to AI/automation (0-10 scale)
+- 💬 **Detailed Rationale** - Understand why each job received its exposure rating
+- 🎨 **Beautiful UI** - Color-coded cards with intuitive, responsive design
+- ✅ **Before/After Comparison** - Visual comparison of risk with and without AI skills
+- 📈 **Risk Reduction Metrics** - See exactly how much specific AI skills can reduce your displacement risk
 
 ## 🚀 Quick Start
 
