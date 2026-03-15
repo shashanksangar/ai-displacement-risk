@@ -66,11 +66,18 @@
             border-color: #667eea;
         }
 
+        .search-help {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 8px;
+        }
+
         .stats {
             display: flex;
             justify-content: space-between;
             color: #666;
             font-size: 0.9rem;
+            margin-top: 10px;
         }
 
         .results {
@@ -141,6 +148,12 @@
             color: #555;
             line-height: 1.6;
             font-size: 0.95rem;
+        }
+
+        .match-highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
 
         .no-results {
@@ -235,6 +248,14 @@
             color: #333;
         }
 
+        .form-sublabel {
+            display: block;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: normal;
+        }
+
         select {
             width: 100%;
             padding: 12px 15px;
@@ -251,59 +272,65 @@
             border-color: #667eea;
         }
 
-        .toggle-group {
+        /* AI Skills Checkboxes */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .skill-checkbox {
             display: flex;
-            gap: 15px;
             align-items: center;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 30px;
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.4s;
-            border-radius: 50%;
+        .skill-checkbox:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
         }
 
-        input:checked + .slider {
-            background-color: #667eea;
+        .skill-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #667eea;
         }
 
-        input:checked + .slider:before {
-            transform: translateX(30px);
+        .skill-label {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            cursor: pointer;
         }
 
-        .toggle-label {
-            font-size: 1rem;
+        .skill-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .skill-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .skill-checkbox input[type="checkbox"]:checked + .skill-label .skill-name {
+            color: #667eea;
+        }
+
+        .skills-summary {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
             color: #555;
         }
 
@@ -351,6 +378,31 @@
             opacity: 0.9;
         }
 
+        .skills-breakdown {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .breakdown-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1565c0;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #bbdefb;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
         .result-insight {
             margin-top: 20px;
             padding: 15px;
@@ -393,14 +445,17 @@
             .result-scores {
                 grid-template-columns: 1fr;
             }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🤖 AI Job Exposure Database</h1>
-            <p class="subtitle">Search 342 U.S. occupations and calculate your personal displacement risk</p>
+            <h1>🤖 AI Job Displacement Risk Calculator</h1>
+            <p class="subtitle">Search 342 U.S. occupations with semantic search and calculate personalized displacement risk</p>
         </header>
 
         <!-- Displacement Risk Calculator -->
@@ -419,13 +474,54 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Do you have AI/ML skills?</label>
-                    <div class="toggle-group">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="aiSkillsToggle" onchange="calculateRisk()">
-                            <span class="slider"></span>
+                    <label class="form-label">Select Your AI Skills:</label>
+                    <span class="form-sublabel">Check all that apply - the more relevant skills you have, the lower your displacement risk</span>
+                    <div class="skills-grid">
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-rag" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">RAG & Automation</span>
+                                <span class="skill-desc">Building AI agents, workflow automation</span>
+                            </div>
                         </label>
-                        <span class="toggle-label" id="skillsLabel">No AI skills</span>
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-ml" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">Machine Learning</span>
+                                <span class="skill-desc">ML algorithms, model training, scikit-learn</span>
+                            </div>
+                        </label>
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-dl" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">Deep Learning</span>
+                                <span class="skill-desc">Neural networks, PyTorch, TensorFlow</span>
+                            </div>
+                        </label>
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-prompt" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">Prompt Engineering</span>
+                                <span class="skill-desc">Effective AI prompting, chain-of-thought</span>
+                            </div>
+                        </label>
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-data" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">AI-Powered Data Analysis</span>
+                                <span class="skill-desc">Using AI for analytics, insights extraction</span>
+                            </div>
+                        </label>
+                        <label class="skill-checkbox">
+                            <input type="checkbox" id="skill-platforms" onchange="calculateRisk()">
+                            <div class="skill-label">
+                                <span class="skill-name">AI Platforms</span>
+                                <span class="skill-desc">ChatGPT, Claude, Midjourney, etc.</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="skills-summary" id="skillsSummary">
+                        No AI skills selected - Select skills above to see impact on your displacement risk
                     </div>
                 </div>
                 <div class="result-panel" id="resultPanel">
@@ -433,34 +529,40 @@
                         <div class="score-card exposure-high" id="noSkillsCard">
                             <div class="score-card-title">Without AI Skills</div>
                             <div class="score-card-value" id="noSkillsScore">-</div>
-                            <div class="score-card-label">Displacement Risk</div>
+                            <div class="score-card-label">Baseline Risk</div>
                         </div>
                         <div class="score-card exposure-low" id="withSkillsCard">
-                            <div class="score-card-title">With AI Skills</div>
+                            <div class="score-card-title">With Your Skills</div>
                             <div class="score-card-value" id="withSkillsScore">-</div>
-                            <div class="score-card-label">Displacement Risk</div>
+                            <div class="score-card-label">Current Risk</div>
                         </div>
+                    </div>
+                    <div class="skills-breakdown" id="skillsBreakdown" style="display: none;">
+                        <div class="breakdown-title">📊 How Your Skills Reduce Risk:</div>
+                        <div id="breakdownContent"></div>
                     </div>
                     <div class="result-insight">
                         <div class="insight-title">💡 Analysis</div>
                         <div class="insight-text" id="insightText"></div>
                     </div>
                     <div class="recommendation" id="recommendationPanel" style="display: none;">
-                        <div class="recommendation-title">✅ Recommendation</div>
+                        <div class="recommendation-title">✅ Recommendations</div>
                         <div class="recommendation-text" id="recommendationText"></div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Search Box -->
         <div class="search-box">
             <div class="search-input-wrapper">
                 <input
                     type="text"
                     id="searchInput"
-                    placeholder="Search for a profession (e.g., teacher, engineer, accountant)..."
+                    placeholder="Search jobs by title, category, or keywords in description..."
                     autocomplete="off"
                 >
+                <div class="search-help">💡 Tip: Search by keywords like "automation", "digital", "analysis", "physical" to find relevant jobs</div>
             </div>
             <div class="stats">
                 <span id="resultCount">Loading jobs...</span>
@@ -475,6 +577,7 @@
 
     <script>
         let jobsData = [];
+        let currentSearchTerm = '';
 
         // Load and merge data
         async function loadData() {
@@ -539,15 +642,65 @@
             }
         }
 
-        // Calculate displacement risk
+        // AI Skills configuration with weights
+        const aiSkills = {
+            'skill-rag': {
+                name: 'RAG & Automation',
+                weight: 0.25,
+                relevance: (exposure) => exposure >= 7 ? 0.3 : 0.2 // Higher value for high-exposure jobs
+            },
+            'skill-ml': {
+                name: 'Machine Learning',
+                weight: 0.22,
+                relevance: (exposure) => exposure >= 6 ? 0.25 : 0.18
+            },
+            'skill-dl': {
+                name: 'Deep Learning',
+                weight: 0.18,
+                relevance: (exposure) => exposure >= 7 ? 0.22 : 0.15
+            },
+            'skill-prompt': {
+                name: 'Prompt Engineering',
+                weight: 0.15,
+                relevance: (exposure) => 0.15 // Universally helpful
+            },
+            'skill-data': {
+                name: 'AI-Powered Data Analysis',
+                weight: 0.12,
+                relevance: (exposure) => exposure >= 5 ? 0.15 : 0.10
+            },
+            'skill-platforms': {
+                name: 'AI Platforms',
+                weight: 0.08,
+                relevance: (exposure) => 0.08 // Basic but universally applicable
+            }
+        };
+
+        // Get selected skills
+        function getSelectedSkills() {
+            return Object.keys(aiSkills).filter(id =>
+                document.getElementById(id)?.checked
+            );
+        }
+
+        // Calculate displacement risk with nuanced AI skills
         function calculateRisk() {
             const select = document.getElementById('professionSelect');
-            const hasAISkills = document.getElementById('aiSkillsToggle').checked;
-            const skillsLabel = document.getElementById('skillsLabel');
+            const selectedSkills = getSelectedSkills();
             const resultPanel = document.getElementById('resultPanel');
+            const skillsSummary = document.getElementById('skillsSummary');
+            const skillsBreakdown = document.getElementById('skillsBreakdown');
 
-            // Update skills label
-            skillsLabel.textContent = hasAISkills ? 'Has AI skills ✓' : 'No AI skills';
+            // Update skills summary
+            if (selectedSkills.length === 0) {
+                skillsSummary.textContent = 'No AI skills selected - Select skills above to see impact on your displacement risk';
+                skillsSummary.style.background = '#f0f0f0';
+                skillsSummary.style.color = '#555';
+            } else {
+                skillsSummary.textContent = `✅ ${selectedSkills.length} AI skill${selectedSkills.length > 1 ? 's' : ''} selected: ${selectedSkills.map(id => aiSkills[id].name).join(', ')}`;
+                skillsSummary.style.background = '#e8f5e9';
+                skillsSummary.style.color = '#2e7d32';
+            }
 
             if (!select.value) {
                 resultPanel.classList.remove('active');
@@ -560,65 +713,129 @@
 
             const aiExposure = job.exposure;
 
-            // Calculate displacement risk
-            // Without AI skills: close to AI exposure score (higher risk)
-            // With AI skills: significantly reduced (lower risk)
-            const riskWithoutSkills = Math.min(10, Math.round(aiExposure * 1.0));
-            const riskWithSkills = Math.max(0, Math.round(aiExposure * 0.3));
+            // Calculate baseline risk (without skills)
+            const baselineRisk = Math.min(10, Math.round(aiExposure * 1.0));
+
+            // Calculate risk reduction based on selected skills
+            let totalReduction = 0;
+            let breakdown = [];
+
+            if (selectedSkills.length > 0) {
+                selectedSkills.forEach(skillId => {
+                    const skill = aiSkills[skillId];
+                    const relevanceWeight = skill.relevance(aiExposure);
+                    const reduction = relevanceWeight * 10; // Convert to risk points
+                    totalReduction += reduction;
+                    breakdown.push({
+                        name: skill.name,
+                        reduction: reduction.toFixed(1)
+                    });
+                });
+
+                // Apply diminishing returns for multiple skills
+                const skillCount = selectedSkills.length;
+                const synergy = skillCount > 1 ? 1 + (Math.log(skillCount) * 0.1) : 1;
+                totalReduction = totalReduction * synergy;
+
+                // Cap total reduction based on job exposure
+                const maxReduction = aiExposure * 0.8; // Max 80% reduction
+                totalReduction = Math.min(totalReduction, maxReduction);
+            }
+
+            const currentRisk = Math.max(0, Math.round(baselineRisk - totalReduction));
 
             // Display scores
-            document.getElementById('noSkillsScore').textContent = riskWithoutSkills;
-            document.getElementById('withSkillsScore').textContent = riskWithSkills;
+            document.getElementById('noSkillsScore').textContent = baselineRisk;
+            document.getElementById('withSkillsScore').textContent = currentRisk;
 
-            // Update card colors based on current state
+            // Update card colors
             const noSkillsCard = document.getElementById('noSkillsCard');
             const withSkillsCard = document.getElementById('withSkillsCard');
 
-            noSkillsCard.className = `score-card ${getExposureClass(riskWithoutSkills)}`;
-            withSkillsCard.className = `score-card ${getExposureClass(riskWithSkills)}`;
+            noSkillsCard.className = `score-card ${getExposureClass(baselineRisk)}`;
+            withSkillsCard.className = `score-card ${getExposureClass(currentRisk)}`;
 
-            // Generate insight
-            const riskReduction = riskWithoutSkills - riskWithSkills;
-            const reductionPercent = Math.round((riskReduction / Math.max(riskWithoutSkills, 1)) * 100);
+            // Display skills breakdown
+            if (breakdown.length > 0) {
+                skillsBreakdown.style.display = 'block';
+                const breakdownContent = document.getElementById('breakdownContent');
+                breakdownContent.innerHTML = breakdown.map(item => `
+                    <div class="breakdown-item">
+                        <span>${item.name}</span>
+                        <span>-${item.reduction} risk points</span>
+                    </div>
+                `).join('');
+
+                // Add synergy bonus if applicable
+                if (selectedSkills.length > 1) {
+                    breakdownContent.innerHTML += `
+                        <div class="breakdown-item" style="font-weight: 600; color: #1565c0;">
+                            <span>Skill Synergy Bonus</span>
+                            <span>+${((Math.log(selectedSkills.length) * 0.1) * 100).toFixed(0)}%</span>
+                        </div>
+                    `;
+                }
+            } else {
+                skillsBreakdown.style.display = 'none';
+            }
+
+            // Generate insights
+            const riskReduction = baselineRisk - currentRisk;
+            const reductionPercent = baselineRisk > 0 ? Math.round((riskReduction / baselineRisk) * 100) : 0;
 
             let insightText = '';
             let recommendationText = '';
             let showRecommendation = false;
 
+            // Generate contextual insights
             if (aiExposure >= 7) {
                 insightText = `<strong>${job.title}</strong> has a high AI exposure score of ${aiExposure}/10. `;
-                if (hasAISkills) {
-                    insightText += `With AI/ML skills, your displacement risk drops to ${riskWithSkills}/10 (${reductionPercent}% reduction). You're leveraging AI as a tool rather than competing with it.`;
-                    recommendationText = `Excellent! Continue developing your AI skills. Focus on domain-specific applications and stay updated with emerging AI tools in your field. Consider becoming an AI implementation specialist.`;
+
+                if (selectedSkills.length >= 3) {
+                    insightText += `Excellent! With ${selectedSkills.length} AI skills, your displacement risk drops to ${currentRisk}/10 (${reductionPercent}% reduction). You're well-positioned to leverage AI as a productivity multiplier.`;
+                    recommendationText = `<strong>Keep Advancing:</strong> You have a strong AI skill foundation. Consider:\n<br>• Specializing in one advanced area (e.g., RAG architecture, model fine-tuning)\n<br>• Building domain-specific AI applications in ${job.category.split('-').join(' ')}\n<br>• Staying current with emerging AI tools and techniques\n<br>• Mentoring others in AI adoption`;
+                    showRecommendation = true;
+                } else if (selectedSkills.length > 0) {
+                    insightText += `Good start! With ${selectedSkills.length} AI skill${selectedSkills.length > 1 ? 's' : ''}, your risk is ${currentRisk}/10 (${reductionPercent}% reduction). Adding more complementary skills would further reduce your risk.`;
+
+                    const missingSkills = Object.keys(aiSkills).filter(id => !selectedSkills.includes(id));
+                    const topMissing = missingSkills.slice(0, 3).map(id => aiSkills[id].name);
+
+                    recommendationText = `<strong>⚠️ High Priority - Expand Your Skills:</strong> Consider adding:\n<br>• ${topMissing.join('<br>• ')}\n<br><br>Each additional skill compounds your protection. Aim for at least 3-4 skills for comprehensive coverage in high-exposure roles.`;
+                    showRecommendation = true;
                 } else {
-                    insightText += `Without AI skills, your displacement risk is ${riskWithoutSkills}/10. Learning AI could reduce this to ${riskWithSkills}/10.`;
-                    recommendationText = `⚠️ High Priority: Your profession is highly susceptible to AI automation. Invest in learning AI/ML fundamentals, prompt engineering, and how to use AI tools specific to your field. This could reduce your displacement risk by ${reductionPercent}%.`;
+                    insightText += `Without AI skills, your displacement risk is ${baselineRisk}/10. This is a high-risk scenario - learning AI could reduce this to as low as ${Math.round(baselineRisk * 0.2)}/10.`;
+                    recommendationText = `<strong>🚨 Critical Priority:</strong> Your profession is highly susceptible to AI automation. Immediate action recommended:\n<br>• Start with <strong>Prompt Engineering</strong> and <strong>AI Platforms</strong> (easiest to learn)\n<br>• Progress to <strong>RAG & Automation</strong> for workflow optimization\n<br>• Consider formal training in <strong>Machine Learning</strong>\n<br><br>Estimated time to basic proficiency: 3-6 months of focused learning. The investment could reduce your displacement risk by up to ${Math.round((baselineRisk - Math.round(baselineRisk * 0.2)))}points (${Math.round(80)}%).`;
                     showRecommendation = true;
                 }
             } else if (aiExposure >= 4) {
                 insightText = `<strong>${job.title}</strong> has a moderate AI exposure score of ${aiExposure}/10. `;
-                if (hasAISkills) {
-                    insightText += `With AI skills, your risk is very low at ${riskWithSkills}/10. You're well-positioned to enhance your work with AI tools.`;
-                    recommendationText = `Great position! You can use AI to enhance productivity. Focus on automation of routine tasks and using AI as a productivity multiplier in your daily work.`;
+
+                if (selectedSkills.length >= 2) {
+                    insightText += `Great! With ${selectedSkills.length} AI skills, your risk is very low at ${currentRisk}/10. You can use AI to enhance productivity while your core work remains human-centric.`;
+                    recommendationText = `<strong>Optimize Your Position:</strong>\n<br>• Use AI for administrative tasks and reporting\n<br>• Automate repetitive workflows with RAG tools\n<br>• Focus on human skills: creativity, empathy, complex problem-solving\n<br>• Become the "AI champion" in your organization`;
+                    showRecommendation = true;
                 } else {
-                    insightText += `Your displacement risk is moderate at ${riskWithoutSkills}/10. Adding AI skills could reduce it to ${riskWithSkills}/10.`;
-                    recommendationText = `Moderate Priority: Consider learning AI basics to stay competitive. Focus on understanding how AI can augment your specific role rather than replace it.`;
+                    insightText += `Your displacement risk is moderate at ${baselineRisk}/10. Adding AI skills could reduce it to ${Math.round(aiExposure * 0.4)}/10.`;
+                    recommendationText = `<strong>Moderate Priority:</strong> While not critical, AI skills provide significant advantages:\n<br>• <strong>Prompt Engineering</strong>: Boost daily productivity 2-3x\n<br>• <strong>AI-Powered Data Analysis</strong>: Faster insights\n<br>• <strong>RAG & Automation</strong>: Eliminate busywork\n<br><br>Focus on practical applications in your specific field.`;
                     showRecommendation = true;
                 }
             } else {
                 insightText = `<strong>${job.title}</strong> has a low AI exposure score of ${aiExposure}/10. `;
-                if (hasAISkills) {
-                    insightText += `With AI skills, you're in an excellent position. Your work requires physical presence and human judgment, while AI can assist with administrative tasks.`;
-                    recommendationText = `Excellent! You're leveraging the best of both worlds. Use AI for administrative efficiency while your core work remains human-centric.`;
+
+                if (selectedSkills.length > 0) {
+                    insightText += `Excellent position! Your work requires physical presence and human judgment. With ${selectedSkills.length} AI skill${selectedSkills.length > 1 ? 's' : ''}, you can use AI for administrative efficiency while your core work remains secure.`;
+                    recommendationText = `<strong>Leverage AI as a Tool:</strong>\n<br>• Use AI Platforms for email, scheduling, documentation\n<br>• Apply Prompt Engineering for customer communications\n<br>• Implement AI for safety monitoring or quality checks\n<br>• Focus on human skills that AI can't replicate`;
                 } else {
-                    insightText += `Your displacement risk is already low at ${riskWithoutSkills}/10. AI skills could still help with productivity, reducing risk to ${riskWithSkills}/10.`;
-                    recommendationText = `Low Priority: While not urgent, basic AI literacy could still help with administrative tasks and overall productivity. Focus on AI tools that reduce paperwork and routine tasks.`;
+                    insightText += `Your displacement risk is already low at ${baselineRisk}/10 due to the physical nature of your work. AI skills could still help with productivity, reducing risk to ${Math.round(aiExposure * 0.5)}/10.`;
+                    recommendationText = `<strong>Low Priority (But Still Valuable):</strong> While your job is relatively safe from AI displacement, basic AI literacy helps:\n<br>• <strong>AI Platforms</strong>: Streamline paperwork and reporting\n<br>• <strong>Prompt Engineering</strong>: Better communication tools\n<br>• Stay relevant in an increasingly AI-integrated workplace`;
                 }
+                showRecommendation = true;
             }
 
             document.getElementById('insightText').innerHTML = insightText;
             document.getElementById('recommendationText').innerHTML = recommendationText;
-            document.getElementById('recommendationPanel').style.display = showRecommendation || hasAISkills ? 'block' : 'none';
+            document.getElementById('recommendationPanel').style.display = showRecommendation ? 'block' : 'none';
 
             resultPanel.classList.add('active');
         }
@@ -637,6 +854,58 @@
             ).join(' ');
         }
 
+        // Highlight matching text
+        function highlightText(text, searchTerm) {
+            if (!searchTerm.trim()) return text;
+
+            const terms = searchTerm.toLowerCase().split(' ').filter(t => t.length > 2);
+            let highlighted = text;
+
+            terms.forEach(term => {
+                const regex = new RegExp(`(${term})`, 'gi');
+                highlighted = highlighted.replace(regex, '<span class="match-highlight">$1</span>');
+            });
+
+            return highlighted;
+        }
+
+        // Enhanced semantic search
+        function searchJobs(query) {
+            currentSearchTerm = query;
+
+            if (!query.trim()) {
+                displayResults(jobsData);
+                return;
+            }
+
+            const searchTerms = query.toLowerCase().split(' ').filter(t => t.length > 0);
+
+            const filtered = jobsData.filter(job => {
+                const titleMatch = searchTerms.some(term =>
+                    job.title.toLowerCase().includes(term)
+                );
+                const categoryMatch = searchTerms.some(term =>
+                    job.category.toLowerCase().includes(term)
+                );
+                const rationaleMatch = searchTerms.some(term =>
+                    job.rationale.toLowerCase().includes(term)
+                );
+
+                return titleMatch || categoryMatch || rationaleMatch;
+            }).map(job => {
+                // Calculate relevance score
+                let relevance = 0;
+                searchTerms.forEach(term => {
+                    if (job.title.toLowerCase().includes(term)) relevance += 3;
+                    if (job.category.toLowerCase().includes(term)) relevance += 2;
+                    if (job.rationale.toLowerCase().includes(term)) relevance += 1;
+                });
+                return { ...job, relevance };
+            }).sort((a, b) => b.relevance - a.relevance); // Sort by relevance
+
+            displayResults(filtered);
+        }
+
         // Display results
         function displayResults(jobs) {
             const resultsDiv = document.getElementById('results');
@@ -647,44 +916,28 @@
                     <div class="no-results">
                         <div class="no-results-icon">🔍</div>
                         <h3>No jobs found</h3>
-                        <p>Try a different search term</p>
+                        <p>Try different keywords or search terms</p>
                     </div>
                 `;
                 resultCount.textContent = 'No results';
                 return;
             }
 
-            resultCount.textContent = `Showing ${jobs.length} job${jobs.length !== 1 ? 's' : ''}`;
+            resultCount.textContent = `Showing ${jobs.length} job${jobs.length !== 1 ? 's' : ''}${currentSearchTerm ? ' (sorted by relevance)' : ''}`;
 
             resultsDiv.innerHTML = jobs.map(job => `
                 <div class="job-card">
                     <div class="job-header">
-                        <div class="job-title">${job.title}</div>
+                        <div class="job-title">${highlightText(job.title, currentSearchTerm)}</div>
                         <div class="exposure-badge ${getExposureClass(job.exposure)}">
                             <div class="exposure-score">${job.exposure}</div>
                             <div class="exposure-label">AI Score</div>
                         </div>
                     </div>
                     <div class="category-tag">${formatCategory(job.category)}</div>
-                    <div class="rationale">${job.rationale}</div>
+                    <div class="rationale">${highlightText(job.rationale, currentSearchTerm)}</div>
                 </div>
             `).join('');
-        }
-
-        // Search functionality
-        function searchJobs(query) {
-            if (!query.trim()) {
-                displayResults(jobsData);
-                return;
-            }
-
-            const searchTerm = query.toLowerCase();
-            const filtered = jobsData.filter(job =>
-                job.title.toLowerCase().includes(searchTerm) ||
-                job.category.toLowerCase().includes(searchTerm)
-            );
-
-            displayResults(filtered);
         }
 
         // Event listeners
