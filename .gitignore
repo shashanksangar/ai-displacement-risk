@@ -10,7 +10,15 @@ env/
 ENV/
 
 # Jobs data (cloned from karpathy/jobs)
-jobs/
+# Keep only the essential JSON files for GitHub Pages
+jobs/.git
+jobs/html/
+jobs/*.py
+jobs/*.md
+jobs/*.csv
+jobs/*.png
+jobs/*.html
+jobs/site/
 
 # IDE
 .vscode/
