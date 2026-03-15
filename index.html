@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Job Exposure Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .results {
+            display: grid;
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .job-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .exposure-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 80px;
+        }
+
+        .exposure-score {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .exposure-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .rationale {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            color: #999;
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Exposure score colors */
+        .exposure-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .exposure-medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .exposure-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Job Exposure Database</h1>
+            <p class="subtitle">Search 342 U.S. occupations by profession and see their AI exposure ratings</p>
+        </header>
+
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search for a profession (e.g., teacher, engineer, accountant)..."
+                    autocomplete="off"
+                >
+            </div>
+            <div class="stats">
+                <span id="resultCount">Loading jobs...</span>
+                <span>AI exposure: 0 (low) to 10 (high)</span>
+            </div>
+        </div>
+
+        <div id="results" class="results">
+            <div class="loading">Loading job data...</div>
+        </div>
+    </div>
+
+    <script>
+        let jobsData = [];
+
+        // Load and merge data
+        async function loadData() {
+            try {
+                const [occupationsRes, scoresRes] = await Promise.all([
+                    fetch('jobs/occupations.json'),
+                    fetch('jobs/scores.json')
+                ]);
+
+                const occupations = await occupationsRes.json();
+                const scores = await scoresRes.json();
+
+                // Create a map of scores by slug
+                const scoresMap = new Map(scores.map(s => [s.slug, s]));
+
+                // Merge the data
+                jobsData = occupations.map(occ => {
+                    const score = scoresMap.get(occ.slug);
+                    return {
+                        ...occ,
+                        exposure: score?.exposure || 0,
+                        rationale: score?.rationale || 'No rationale available'
+                    };
+                });
+
+                displayResults(jobsData);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('results').innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">⚠️</div>
+                        <h3>Error loading data</h3>
+                        <p>Please make sure the jobs data is available.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Get exposure class for color coding
+        function getExposureClass(score) {
+            if (score <= 3) return 'exposure-low';
+            if (score <= 6) return 'exposure-medium';
+            return 'exposure-high';
+        }
+
+        // Format category for display
+        function formatCategory(category) {
+            return category.split('-').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        // Display results
+        function displayResults(jobs) {
+            const resultsDiv = document.getElementById('results');
+            const resultCount = document.getElementById('resultCount');
+
+            if (jobs.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No jobs found</h3>
+                        <p>Try a different search term</p>
+                    </div>
+                `;
+                resultCount.textContent = 'No results';
+                return;
+            }
+
+            resultCount.textContent = `Showing ${jobs.length} job${jobs.length !== 1 ? 's' : ''}`;
+
+            resultsDiv.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">${job.title}</div>
+                        <div class="exposure-badge ${getExposureClass(job.exposure)}">
+                            <div class="exposure-score">${job.exposure}</div>
+                            <div class="exposure-label">AI Score</div>
+                        </div>
+                    </div>
+                    <div class="category-tag">${formatCategory(job.category)}</div>
+                    <div class="rationale">${job.rationale}</div>
+                </div>
+            `).join('');
+        }
+
+        // Search functionality
+        function searchJobs(query) {
+            if (!query.trim()) {
+                displayResults(jobsData);
+                return;
+            }
+
+            const searchTerm = query.toLowerCase();
+            const filtered = jobsData.filter(job =>
+                job.title.toLowerCase().includes(searchTerm) ||
+                job.category.toLowerCase().includes(searchTerm)
+            );
+
+            displayResults(filtered);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchJobs(e.target.value);
+        });
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>
