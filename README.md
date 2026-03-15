@@ -1,6 +1,6 @@
-# AI Job Exposure Search
+# AI Displacement Risk Calculator
 
-A searchable web interface for exploring AI exposure ratings across 342 U.S. occupations, based on [karpathy/jobs](https://github.com/karpathy/jobs).
+A searchable web interface for exploring AI exposure ratings across 342 U.S. occupations with a personal displacement risk calculator, based on [karpathy/jobs](https://github.com/karpathy/jobs).
 
 ## 🎯 Features
 
@@ -23,8 +23,8 @@ A searchable web interface for exploring AI exposure ratings across 342 U.S. occ
 ### 1. Clone and Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ai-job-search.git
-cd ai-job-search
+git clone https://github.com/YOUR_USERNAME/ai-displacement-risk.git
+cd ai-displacement-risk
 ./setup.sh
 ```
 
@@ -118,7 +118,7 @@ All data comes from the Bureau of Labor Statistics and includes AI exposure anal
 ## 📁 Project Structure
 
 ```
-ai-job-search/
+ai-displacement-risk/
 ├── index.html              # Main searchable web interface
 ├── server.py               # Simple Python HTTP server
 ├── setup.sh                # Setup script (clones job data)
