@@ -4,11 +4,19 @@ A searchable web interface for exploring AI exposure ratings across 342 U.S. occ
 
 ## 🎯 Features
 
+### Core Features
 - 🔍 **Search by Profession** - Type any job title or category to filter results instantly
 - 📊 **AI Exposure Ratings** - See how susceptible each occupation is to AI/automation (0-10 scale)
 - 💡 **Detailed Rationale** - Understand why each job received its exposure rating
 - 🎨 **Beautiful UI** - Color-coded cards with intuitive, responsive design
 - 📈 **342 Occupations** - Complete U.S. Bureau of Labor Statistics dataset
+
+### 🆕 Personal Displacement Risk Calculator
+- **Interactive Risk Assessment** - Calculate your personal displacement risk based on your profession
+- **AI Skills Impact** - See how learning AI/ML skills affects your job security
+- **Smart Recommendations** - Get personalized advice on upskilling strategies
+- **Before/After Comparison** - Visual comparison of risk with and without AI skills
+- **Risk Reduction Metrics** - See exactly how much AI skills can reduce your displacement risk
 
 ## 🚀 Quick Start
 
@@ -57,6 +65,34 @@ Once the interface loads:
 - **7-10 (Red)**: High AI exposure - primarily digital/knowledge work
 
 The average score across all occupations is 5.3/10.
+
+### 5. Using the Displacement Risk Calculator
+
+Click **"Open Calculator"** to access the personal risk assessment tool:
+
+1. **Select Your Profession** from the dropdown (342 occupations available)
+2. **Toggle AI Skills** to indicate whether you have AI/ML training
+3. **View Your Results**:
+   - **Without AI Skills**: Your baseline displacement risk
+   - **With AI Skills**: How much your risk decreases with AI knowledge
+   - **Personalized Insights**: Context-specific analysis of your situation
+   - **Recommendations**: Specific advice on upskilling priorities
+
+**Example Results:**
+- **Software Developer** (AI Exposure: 8/10)
+  - Without AI skills: 8/10 risk
+  - With AI skills: 2/10 risk
+  - 75% risk reduction by learning AI
+
+- **Construction Worker** (AI Exposure: 2/10)
+  - Without AI skills: 2/10 risk
+  - With AI skills: 1/10 risk
+  - Already low risk, AI helps with admin tasks
+
+**The Calculator Logic:**
+- High-exposure jobs benefit dramatically from AI skills (become AI users, not replacements)
+- Low-exposure jobs see smaller but meaningful improvements (administrative efficiency)
+- Risk reduction typically ranges from 60-80% for knowledge workers
 
 ## 📖 How It Works
 
@@ -108,10 +144,26 @@ ai-job-search/
 
 ## 💡 Use Cases
 
+### For Individuals
 - **Career Planning** - Understand which professions are most/least susceptible to AI
+- **Personal Risk Assessment** - Calculate your specific displacement risk
+- **Upskilling Strategy** - Get data-driven recommendations on learning AI
+- **Career Transitions** - Compare displacement risk across different career paths
+
+### For Educators & Advisors
 - **Education Guidance** - Help students choose future-proof careers
+- **Curriculum Planning** - Identify where AI skills training is most critical
+- **Career Counseling** - Provide evidence-based career advice
+
+### For Organizations
 - **Workforce Analysis** - Analyze automation impact across industries
-- **Research** - Study AI's potential impact on the job market
+- **Training Programs** - Identify which roles need AI upskilling most urgently
+- **Hiring Strategy** - Understand AI exposure in different positions
+
+### For Researchers
+- **Labor Market Research** - Study AI's potential impact on employment
+- **Policy Analysis** - Inform workforce development policies
+- **Academic Studies** - Access comprehensive occupational AI exposure data
 
 ## 🐛 Troubleshooting
 
@@ -139,14 +191,30 @@ This clones the required job data from karpathy/jobs into the `jobs/` directory.
 - **AI Exposure Analysis**: [@karpathy](https://github.com/karpathy)
 - **Original Project**: [karpathy/jobs](https://github.com/karpathy/jobs)
 
+## 📸 Screenshots
+
+### Search Interface
+Browse and search through 342 occupations with color-coded AI exposure ratings.
+
+### Displacement Risk Calculator
+Interactive tool showing how AI skills impact your job security:
+- Select your profession
+- Toggle AI skills on/off
+- View personalized risk assessment
+- Get targeted recommendations
+
 ## 🎯 Future Enhancements
 
 Potential improvements:
-- Advanced filtering (by category, exposure range)
-- Sorting options (alphabetical, by score, by employment)
-- Comparison mode (compare multiple jobs side-by-side)
-- Export search results
-- Charts and visualizations of AI exposure distribution
+- **Advanced Filtering** - Filter by category, exposure range, risk level
+- **Sorting Options** - Sort alphabetically, by score, by employment numbers
+- **Comparison Mode** - Compare multiple jobs side-by-side
+- **Export Results** - Download search results and personal assessments
+- **Data Visualizations** - Charts showing AI exposure distribution across industries
+- **Career Path Simulator** - Explore risk across potential career transitions
+- **Skills Gap Analysis** - Identify specific AI skills most valuable for your field
+- **Industry Trends** - Track how AI exposure changes over time
+- **Salary Correlation** - Analyze relationship between AI exposure and compensation
 
 ## 📄 License
 
