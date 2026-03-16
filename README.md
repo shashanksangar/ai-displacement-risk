@@ -1,6 +1,8 @@
 # AI Displacement Risk Calculator
 
-A searchable web interface for exploring AI exposure ratings across 342 U.S. occupations with a personal displacement risk calculator, based on [karpathy/jobs](https://github.com/karpathy/jobs).
+An **educational and exploratory tool** for understanding AI exposure across 342 U.S. occupations from the Bureau of Labor Statistics.
+
+> ⚠️ **IMPORTANT DISCLAIMER**: This is an exploratory visualization tool, not professional career advice. AI exposure scores are subjective assessments for educational discussion, not scientific predictions. See [DISCLAIMER.md](DISCLAIMER.md) for full details.
 
 ## 🌟 What's New (v2.0)
 
@@ -132,14 +134,26 @@ The interface loads job data from the [karpathy/jobs](https://github.com/karpath
    - AI exposure score (0-10)
    - Detailed rationale explaining the score
 
-## 📊 Data Source
+## 📊 Data Source & Important Context
 
-All data comes from the Bureau of Labor Statistics and includes AI exposure analysis by [@karpathy](https://github.com/karpathy):
+### Occupation Data (Authoritative)
+- **Source**: U.S. Bureau of Labor Statistics Occupational Outlook Handbook
+- **Coverage**: 342 U.S. occupations
+- **Includes**: Job descriptions, categories, education requirements, employment stats
 
-- **342 U.S. occupations** from the Occupational Outlook Handbook
-- **AI exposure scores** rated 0-10
-- **Detailed rationales** explaining automation susceptibility
-- **Categories** grouping similar professions
+### AI Exposure Scores (Exploratory & Subjective)
+- **Nature**: Subjective assessments for educational exploration
+- **Scale**: 0-10 (where 10 = highest AI exposure)
+- **Origin**: Originally created as a weekend visualization project
+- **Status**: Exploratory opinions, NOT scientific predictions
+- **Use**: Educational discussion starter, not career advice
+
+### Original Project Note
+This tool was inspired by a visualization project that explored AI exposure across BLS occupations. That original project was taken down because it was "wildly misinterpreted" despite being clearly labeled as exploratory.
+
+**We learned from that**: These scores are subjective thought experiments, not definitive career guidance.
+
+> 📖 **Read the full disclaimer**: [DISCLAIMER.md](DISCLAIMER.md) before using this tool
 
 ## 📁 Project Structure
 
@@ -168,13 +182,20 @@ ai-displacement-risk/
 - CORS enabled for local development
 - Auto-opens browser on startup
 
-## 💡 Use Cases
+## 💡 Appropriate Use Cases
 
-### For Individuals
-- **Career Planning** - Understand which professions are most/least susceptible to AI
-- **Personal Risk Assessment** - Calculate your specific displacement risk
-- **Upskilling Strategy** - Get data-driven recommendations on learning AI
-- **Career Transitions** - Compare displacement risk across different career paths
+### ✅ Good Uses (Educational & Exploratory)
+- **Learning about AI concepts** - Understand automation patterns
+- **Starting conversations** - Discuss AI's potential workforce impact
+- **Exploring BLS data** - Interactive way to browse 342 occupations
+- **Understanding AI skills** - Learn what different AI capabilities mean
+- **Educational projects** - Teaching about technology and labor markets
+
+### ❌ Inappropriate Uses
+- **Career decisions** - Don't base major choices solely on these scores
+- **Hiring/firing** - Not appropriate for employment decisions
+- **Definitive claims** - These are exploratory, not scientific facts
+- **Fearmongering** - Not intended to create anxiety about automation
 
 ### For Educators & Advisors
 - **Education Guidance** - Help students choose future-proof careers
@@ -211,11 +232,12 @@ Make sure you ran the setup script:
 
 This clones the required job data from karpathy/jobs into the `jobs/` directory.
 
-## 📚 Credits
+## 📚 Credits & Attribution
 
-- **Data Source**: [Bureau of Labor Statistics Occupational Outlook Handbook](https://www.bls.gov/ooh/)
-- **AI Exposure Analysis**: [@karpathy](https://github.com/karpathy)
-- **Original Project**: [karpathy/jobs](https://github.com/karpathy/jobs)
+- **Occupation Data**: [U.S. Bureau of Labor Statistics Occupational Outlook Handbook](https://www.bls.gov/ooh/)
+- **AI Exposure Concept**: Inspired by exploratory visualization of AI exposure across occupations
+- **Disclaimer**: Scores are subjective and exploratory, not scientific predictions
+- **Implementation**: Interactive calculator and enhanced search features
 
 ## 📸 Screenshots
 
@@ -242,9 +264,11 @@ Potential improvements:
 - **Industry Trends** - Track how AI exposure changes over time
 - **Salary Correlation** - Analyze relationship between AI exposure and compensation
 
-## 📄 License
+## 📄 License & Disclaimer
 
-This project is a web interface built on top of data from [karpathy/jobs](https://github.com/karpathy/jobs). Please refer to the original repository for data licensing.
+This is an educational project using public BLS data. The AI exposure scores are exploratory assessments for discussion purposes only.
+
+**Please read**: [DISCLAIMER.md](DISCLAIMER.md) for important information about appropriate use, limitations, and context.
 
 ## 🤝 Contributing
 

@@ -441,6 +441,37 @@
             line-height: 1.6;
         }
 
+        /* Disclaimer Banner */
+        .disclaimer-banner {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(255, 193, 7, 0.2);
+        }
+
+        .disclaimer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-text {
+            color: #856404;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .disclaimer-text a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .result-scores {
                 grid-template-columns: 1fr;
@@ -457,6 +488,17 @@
             <h1>🤖 AI Job Displacement Risk Calculator</h1>
             <p class="subtitle">Search 342 U.S. occupations with semantic search and calculate personalized displacement risk</p>
         </header>
+
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-banner">
+            <div class="disclaimer-title">⚠️ Important: Educational Tool Only</div>
+            <div class="disclaimer-text">
+                This is an <strong>exploratory educational tool</strong>, not professional career advice.
+                AI exposure scores are subjective assessments for discussion purposes, not scientific predictions.
+                Actual AI impact on employment is complex and uncertain.
+                <a href="https://github.com/shashanksangar/ai-displacement-risk/blob/main/DISCLAIMER.md" target="_blank">Read full disclaimer</a>.
+            </div>
+        </div>
 
         <!-- Displacement Risk Calculator -->
         <div class="calculator-section">
